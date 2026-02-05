@@ -1,0 +1,130 @@
+{
+  "name": "Personalized Email Sender from Excel Data",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "962701c4-fead-4601-9e72-12506fd5c730",
+      "name": "Manuel Başlat",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        512,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {
+          "readAsString": true
+        }
+      },
+      "id": "f5859198-8ee2-4621-a055-a33cc390ad0f",
+      "name": "Excel Dosyasını Oku",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json[\"MAİL\"] }}",
+        "subject": "=Sponsorluk Talebi",
+        "message": "=Sayın {{ $json.KURUM }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1312,
+        720
+      ],
+      "id": "309df6c3-6ec5-4d0c-9880-5456ca275ba0",
+      "name": "Send a message",
+      "webhookId": "20c7e6e0-8b8d-4de2-9293-07301f00ed3f",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "B2pWNyCjg7zSgXaA",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1gSu9jevvIFkFKXXs_X5z5bwBvOf27ZwZ",
+          "mode": "list",
+          "cachedResultName": "n8nn (2).xlsx",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gSu9jevvIFkFKXXs_X5z5bwBvOf27ZwZ/edit?usp=drivesdk&ouid=111171861756370534740&rtpof=true&sd=true"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        784,
+        720
+      ],
+      "id": "bdbb8bbb-6799-40e3-9707-f8959cb92270",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "eBTmx3XUQAYDR0UH",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manuel Başlat": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Excel Dosyasını Oku": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Excel Dosyasını Oku",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "adf0c951-3457-4035-b2ce-afb0b37ff5ea",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b48e55eb8d5d70638ef1803725a85a8d9e39ef993029015e2285505d17c0a443"
+  },
+  "id": "KBEU2bLThH2ZnrHHbF8G0",
+  "tags": []
+}
